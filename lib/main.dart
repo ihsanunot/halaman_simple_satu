@@ -36,11 +36,7 @@ class MyApp extends StatelessWidget {
               ],
             ),
           ),
-          Icon(
-            Icons.star,
-            color: Colors.red[500],
-          ),
-          const Text('46')
+          const FavoriteWidget(), // call state
         ],
       ),
     );
@@ -71,26 +67,28 @@ class MyApp extends StatelessWidget {
     );
 
     return MaterialApp(
-      title: 'Flutter layout demo',
+      title: 'Ihsan Layout Demo',
       home: Scaffold(
         appBar: AppBar(
-          title: const Text('Page Layout'),
+          title: const Text('Liburan Demo Page'),
         ),
         // BAGIAN UTAMA HALAMAN !
-        body: Column(
-          children: [
-            Image.asset(
-              'images/gambar1.jpg',
-              width: 600,
-              height: 240,
-              fit: BoxFit.cover,
-            ),
-            titleSection,
-            buttonSection,
-            textSection,
-          ],
-          // body pakai Column terus children biar bisa masukin beberapa widget mirip component lego
-          // di dalam children kita berurutan section nya
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              Image.asset(
+                'images/gambar1.jpg',
+                width: 1300,
+                height: 240,
+                fit: BoxFit.cover,
+              ),
+              titleSection,
+              buttonSection,
+              textSection,
+            ],
+            // body pakai Column terus children biar bisa masukin beberapa widget mirip component lego
+            // di dalam children kita berurutan section nya
+          ),
         ),
       ),
     );
@@ -116,5 +114,55 @@ class MyApp extends StatelessWidget {
         ),
       ],
     );
+  }
+}
+
+class FavoriteWidget extends StatefulWidget {
+  const FavoriteWidget({super.key});
+
+  @override
+  State<FavoriteWidget> createState() => _FavoriteWidgetState();
+}
+
+class _FavoriteWidgetState extends State<FavoriteWidget> {
+  bool _isFavorited = true;
+  int _favoriteCount = 41;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Container(
+          padding: const EdgeInsets.all(0),
+          child: IconButton(
+            alignment: Alignment.centerRight,
+            icon: (_isFavorited
+                ? const Icon(Icons.star)
+                : const Icon(Icons.star_border)),
+            color: Colors.red[500],
+            onPressed: _toggleFavorite, // _toggleFavorite is method
+          ),
+        ),
+        SizedBox(
+          width: 18,
+          child: SizedBox(
+            child: Text('$_favoriteCount'),
+          ),
+        ),
+      ],
+    );
+  }
+
+  void _toggleFavorite() {
+    setState(() {
+      if (_isFavorited) {
+        _favoriteCount -= 1;
+        _isFavorited = false;
+      } else {
+        _favoriteCount += 1;
+        _isFavorited = true;
+      }
+    });
   }
 }
